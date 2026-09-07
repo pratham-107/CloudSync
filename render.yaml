@@ -17,9 +17,9 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      # API CORS origin = the deployed static site URL below.
+      # API CORS origin = the deployed Vercel frontend URL.
       - key: CLIENT_URL
-        value: https://cloudsync-client.onrender.com
+        value: https://cloud-sync-two.vercel.app
       - key: MONGODB_URI
         sync: false
       - key: REDIS_URL
@@ -48,14 +48,3 @@ services:
       # for previews/downloads (no public buckets on the Filebase free tier).
       - key: AWS_PUBLIC_BASE_URL
         sync: false
-
-  - type: web
-    name: cloudsync-client
-    runtime: static
-    plan: free
-    rootDir: ./client
-    buildCommand: npm install && npm run build
-    staticPublishPath: ./dist
-    envVars:
-      - key: VITE_API_URL
-        value: https://cloudsync-api.onrender.com/api
