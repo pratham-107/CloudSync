@@ -5,6 +5,7 @@ services:
     name: cloudsync-redis
     plan: free
     maxmemoryPolicy: noeviction
+    ipAllowList: []
 
   - type: web
     name: cloudsync-api
@@ -42,7 +43,7 @@ services:
         sync: false
       - key: AWS_S3_ENDPOINT
         sync: false
-      # Private private-storage: leave empty so the API mints presigned GET urls
+      # Private storage: leave empty so the API mints presigned GET urls
       # for previews/downloads (no public buckets on the Filebase free tier).
       - key: AWS_PUBLIC_BASE_URL
         sync: false
