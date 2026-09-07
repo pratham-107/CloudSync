@@ -55,22 +55,24 @@ const getAssets = async (req, res, next) => {
     res.status(200).json({
       success: true,
       data: {
-        assets: assets.map((a) => ({
-          assetId: a._id,
-          name: a.name,
-          originalName: a.originalName,
-          mimeType: a.mimeType,
-          size: a.size,
-          s3Url: s3Service.getCloudFrontUrl(a.s3Key),
-          thumbnailUrl: a.thumbnailKey
-            ? s3Service.getCloudFrontUrl(a.thumbnailKey)
-            : null,
-          tags: a.tags,
-          isStarred: a.isStarred,
-          folderId: a.folderId,
-          createdAt: a.createdAt,
-          updatedAt: a.updatedAt,
-        })),
+        assets: await Promise.all(
+          assets.map(async (a) => ({
+            assetId: a._id,
+            name: a.name,
+            originalName: a.originalName,
+            mimeType: a.mimeType,
+            size: a.size,
+            s3Url: await s3Service.getObjectUrl(a.s3Key),
+            thumbnailUrl: a.thumbnailKey
+              ? await s3Service.getObjectUrl(a.thumbnailKey)
+              : null,
+            tags: a.tags,
+            isStarred: a.isStarred,
+            folderId: a.folderId,
+            createdAt: a.createdAt,
+            updatedAt: a.updatedAt,
+          }))
+        ),
         pagination: {
           page: pageNum,
           limit: limitNum,
@@ -169,7 +171,7 @@ const confirmUpload = async (req, res, next) => {
     asset.size = size;
     asset.folderId = folderId || null;
     asset.tags = tags || [];
-    asset.s3Url = s3Service.getCloudFrontUrl(s3Key);
+    asset.s3Url = await s3Service.getObjectUrl(s3Key);
     await asset.save();
 
     await User.findByIdAndUpdate(req.user._id, {
@@ -219,9 +221,9 @@ const getAsset = async (req, res, next) => {
         originalName: asset.originalName,
         mimeType: asset.mimeType,
         size: asset.size,
-        s3Url: s3Service.getCloudFrontUrl(asset.s3Key),
+        s3Url: await s3Service.getObjectUrl(asset.s3Key),
         thumbnailUrl: asset.thumbnailKey
-          ? s3Service.getCloudFrontUrl(asset.thumbnailKey)
+          ? await s3Service.getObjectUrl(asset.thumbnailKey)
           : null,
         tags: asset.tags,
         isStarred: asset.isStarred,

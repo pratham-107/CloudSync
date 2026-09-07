@@ -90,7 +90,7 @@ const accessShare = async (token, password) => {
     throw error;
   }
 
-  const baseUrl = s3Service.getCloudFrontUrl(asset.s3Key);
+  const baseUrl = await s3Service.getObjectUrl(asset.s3Key);
 
   return {
     asset: {
