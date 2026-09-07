@@ -78,7 +78,7 @@ export default function Dashboard() {
     search: searchQuery,
   });
 
-  const { data: folders = [], isLoading: isLoadingFolders } =
+  const { data: folders = [] } =
     useGetFoldersQuery(currentFolderId);
 
   const rawAssets = assetsData?.assets || [];

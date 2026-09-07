@@ -19,7 +19,6 @@ import {
   Clock,
   ShieldCheck,
   ArrowLeft,
-  Sparkles,
 } from "lucide-react";
 
 // Duck Mascot Component

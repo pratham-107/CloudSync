@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "/api",
+  baseUrl: import.meta.env.VITE_API_URL || "/api",
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth?.token || localStorage.getItem("cloudsync_token");
     if (token) {

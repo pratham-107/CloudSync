@@ -10,6 +10,7 @@
     "test:watch": "jest --watch --forceExit --detectOpenHandles",
     "test:integration": "NODE_ENV=test jest --forceExit --detectOpenHandles",
     "setup:storage": "node scripts/setup-minio.js",
+    "setup:cors": "node scripts/setup-storage-cors.js",
     "lint": "eslint src/ scripts/",
     "lint:fix": "eslint src/ --fix"
   },

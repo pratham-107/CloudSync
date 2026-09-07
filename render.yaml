@@ -17,9 +17,9 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      # Frontend origin (CORS). Match the Render static site / deployed client URL.
+      # API CORS origin = the deployed static site URL below.
       - key: CLIENT_URL
-        sync: false
+        value: https://cloudsync-client.onrender.com
       - key: MONGODB_URI
         sync: false
       - key: REDIS_URL
@@ -48,3 +48,14 @@ services:
       # for previews/downloads (no public buckets on the Filebase free tier).
       - key: AWS_PUBLIC_BASE_URL
         sync: false
+
+  - type: web
+    name: cloudsync-client
+    runtime: static
+    plan: free
+    rootDir: ./client
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://cloudsync-api.onrender.com/api

@@ -16,7 +16,6 @@ import {
   AlertCircle,
   ShieldCheck,
   ArrowLeft,
-  Sparkles,
 } from "lucide-react";
 
 // Duck Mascot Component
