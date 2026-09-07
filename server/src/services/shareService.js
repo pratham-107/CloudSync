@@ -90,7 +90,13 @@ const accessShare = async (token, password) => {
     throw error;
   }
 
-  const baseUrl = await s3Service.getObjectUrl(asset.s3Key);
+  const expiresIn = share.expiresAt
+    ? Math.max(0, Math.floor((share.expiresAt - new Date()) / 1000))
+    : null;
+
+  const baseUrl = await s3Service.getObjectUrl(asset.s3Key, {
+    expiresIn: expiresIn || 7 * 24 * 60 * 60,
+  });
 
   return {
     asset: {
@@ -100,9 +106,7 @@ const accessShare = async (token, password) => {
       s3Url: baseUrl,
     },
     downloadUrl: baseUrl,
-    expiresIn: share.expiresAt
-      ? Math.max(0, Math.floor((share.expiresAt - new Date()) / 1000))
-      : null,
+    expiresIn,
   };
 };
 
